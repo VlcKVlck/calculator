@@ -1,0 +1,23 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "calculator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VlcKVlck/calculator.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VlcKVlck/calculator/issues"
+  },
+  "homepage": "https://github.com/VlcKVlck/calculator#readme",
+  "dependencies": {
+    "http-server": "^14.1.1",
+    "sass": "^1.56.1"
+  }
+}

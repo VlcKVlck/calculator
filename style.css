@@ -1,0 +1,176 @@
+.bright main {
+  background-color: #FDFDBD;
+}
+.bright .opsbutton, .bright .calcbutton {
+  background-color: #B8E8FC;
+}
+.bright .numbutton {
+  background-color: #C8FFD4;
+}
+.bright .widebutton, .bright .result {
+  background-color: #B8E8FC;
+}
+
+.dark main {
+  background-color: #FFE15D;
+}
+.dark .opsbutton, .dark .calcbutton {
+  background-color: #DC3535;
+}
+.dark .numbutton {
+  background-color: #F49D1A;
+}
+.dark .widebutton, .dark .result {
+  background-color: #DC3535;
+}
+
+button:hover, input:hover, select:hover {
+  cursor: pointer;
+}
+
+.site {
+  display: grid;
+  grid-template-columns: 2fr 5fr 2fr;
+  grid-template-areas: "history main scientific";
+  column-gap: 0;
+}
+
+.history {
+  grid-area: history;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(9, 1fr);
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.historytitle {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  margin: 0;
+  padding-right: 2px;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.historybody {
+  grid-row: 2/9;
+  grid-column: 1/2;
+  font-size: 2em;
+  font-weight: bolder;
+  text-align: center;
+  box-sizing: border-box;
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+
+#clockimg {
+  height: 2.5vw;
+}
+
+main {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 2fr 3fr 3fr 3fr 2fr;
+  grid-template-rows: repeat(9, 1fr);
+  margin: 0;
+  padding: 0;
+}
+main .scibuttons {
+  grid-column: 1/2;
+  grid-row: 1/9;
+  display: flex;
+  flex-direction: column;
+}
+main .display {
+  grid-column: 2/5;
+  grid-row: 1/4;
+  display: flex;
+  flex-direction: column;
+}
+main .numbers {
+  grid-column: 2/5;
+  grid-row: 4/8;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+main .signs {
+  grid-column: 5/6;
+  grid-row: 1/9;
+  display: flex;
+  flex-direction: column;
+}
+main button, main #result {
+  box-sizing: border-box;
+  color: black;
+  font-weight: bolder;
+  height: 10vh;
+  text-align: center;
+  margin: 0.2vh;
+  border: none;
+  font-size: 3.5vw;
+  text-overflow-ellipsis: set;
+}
+main button img, main #result img {
+  height: 2.5vw;
+}
+main #title {
+  font-family: calbiri, serif;
+  font-size: 7vm;
+}
+main .numbutton:active {
+  transform: translateY(4px);
+  color: white;
+  border: none;
+}
+main button:hover {
+  border: 1px white solid;
+}
+main .opsbutton:active, main .widebutton:active {
+  transform: translateY(4px);
+  background-color: inherit;
+  border: none;
+}
+
+.scientific {
+  grid-area: scientific;
+}
+
+@media only screen and (max-width 600px) {
+  .site {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.configsite {
+  background-color: aliceblue;
+  margin: 0;
+  height: 100vh;
+}
+
+.mainconfig {
+  display: flex;
+  flex-direction: column;
+  font-family: "calibri", serif;
+  justify-content: center;
+  align-items: center;
+}
+
+.helpsite {
+  background-color: aliceblue;
+  margin: 0;
+  height: 100vh;
+}
+
+.mainhelp {
+  line-height: 3vh;
+  font-family: "calbiri", serif;
+  padding-left: 3vw;
+  margin: 0;
+  height: 100vh;
+}
+
+/*# sourceMappingURL=style.css.map */
