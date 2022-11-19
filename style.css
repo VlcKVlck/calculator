@@ -34,6 +34,14 @@ button:hover, input:hover, select:hover {
   grid-template-areas: "history main scientific";
   column-gap: 0;
 }
+@media only screen and (max-device-width: 600px) {
+  .site {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 2fr 2fr;
+    grid-template-areas: "main" "scientific" "history";
+  }
+}
 
 .history {
   grid-area: history;
@@ -68,7 +76,7 @@ button:hover, input:hover, select:hover {
 }
 
 #clockimg {
-  height: 2.5vw;
+  height: 1em;
 }
 
 main {
@@ -139,12 +147,6 @@ main .opsbutton:active, main .widebutton:active {
   grid-area: scientific;
 }
 
-@media only screen and (max-width 600px) {
-  .site {
-    display: flex;
-    flex-direction: column;
-  }
-}
 .configsite {
   background-color: aliceblue;
   margin: 0;

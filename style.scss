@@ -1,4 +1,7 @@
 
+
+
+
 @mixin themes ($theme-name,$background,$numsbuttons,$otherbuttons,$secondarycolor) {
   .#{$theme-name} {
 
@@ -28,13 +31,21 @@ $Fontcolor: black;
   button:hover, input:hover, select:hover{
     cursor: pointer;
   }
-.site{
+.site {
   display: grid;
   grid-template-columns: 2fr 5fr 2fr;
   grid-template-areas: "history main scientific";
   column-gap: 0;
-}
+  @media only screen and (max-device-width: 600px)  {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr 2fr 2fr;
+  grid-template-areas: "main"
+                      "scientific"
+                      "history";
 
+}
+}
 
 .history {
   grid-area: history;
@@ -68,7 +79,7 @@ $Fontcolor: black;
 
   }
   #clockimg {
-    height: 2.5vw;
+    height: 1em;
   }
 
 
@@ -149,12 +160,7 @@ main {
 }
 
 
-@media only screen and (max-width 600px)  {
-    .site{
-    display: flex;
-    flex-direction: column;
-    }
-  }
+
 
 //config styling
 
