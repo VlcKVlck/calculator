@@ -44,14 +44,16 @@ function sciMode() {
     var elem = document.getElementById('scientific');
     var btn = document.getElementById("sciMode");
     if (scientific == false) {
-        elem.style.visibility = 'hidden';
-        btn.style.border = "inherit";
+        elem.style.visibility = 'visible';
+        btn.style.border = "5px solid black";
         scientific = true;
+        clearRes();
     }
     else {
         elem.style.visibility = 'visible';
-        btn.style.border = "5px solid black";
+        btn.style.border = "inherit";
         scientific = false;
+        clearRes();
     }
 }
 document.getElementById('lightbulb').addEventListener("click", lightScreen);

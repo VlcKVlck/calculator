@@ -6,6 +6,7 @@ var res = ''; //The output string displayed to user
 var historyRes = ''; //Displays history
 var prevNum = null;
 var curNum = null;
+var thirdNum = null;
 var curOperator = null;
 var prevOperator = null;
 var total = 0;
@@ -20,6 +21,16 @@ function checkStatus(c) {
     }
 }
 function sciCalc(c) {
+    var temp = numInStr + c;
+    if (isValidNumber(temp)) { //use regex to check if adding the digit will provide a valid number
+        res += c;
+        numInStr += c;
+        document.getElementById("result").innerHTML = res;
+        return;
+    }
+    console.log("entered", "prevoperator:", prevOperator, "prevnum:", prevNum, "curnum:", curNum);
+    afterGettingOperatorSci(c);
+    console.log("after get operator", "prevoperator:", prevOperator, "prevnum:", prevNum, "curnum:", curNum);
 }
 function isOperator(o) {
     if (o == '/' || o == '*' || o == '-' || o == '+') {
@@ -28,6 +39,7 @@ function isOperator(o) {
 }
 // Insert function receives user input and manipulates it
 function insert(c) {
+    console.log("entering insert function");
     var temp = numInStr + c;
     if (isValidNumber(temp)) { //use regex to check if adding the digit will provide a valid number
         res += c;
@@ -35,9 +47,71 @@ function insert(c) {
         document.getElementById("result").innerHTML = res;
         return;
     }
-    //Inputing an operator will cause a number to convert from string input to a number
-    //and based on the current number of operators and operands will determine if to run a calculation
-    //or wait for more information from user
+    afterGettingOperator(c);
+}
+//Inputing an operator will cause a number to convert from string input to a number
+//and based on the current number of operators and operands will determine if to run a calculation
+//or wait for more information from user
+function afterGettingOperatorSci(c) {
+    console.log("entering other function");
+    if (isOperator(c)) {
+        //assign the first number
+        if (!prevNum) {
+            prevNum = Number(numInStr);
+            numInStr = '';
+            total = prevNum;
+        }
+        //assign the second number if we have the first number
+        else if (!curNum) {
+            curNum = Number(numInStr);
+            numInStr = '';
+        }
+        //assign operators
+        if (!prevOperator) {
+            prevOperator = c;
+            res += c;
+            document.getElementById("result").innerHTML = res;
+            return;
+        }
+        else {
+            if (prevNum && prevOperator && !curNum) { //check if you need to reassign opeartor
+                prevOperator = c;
+                res = res.slice(0, -1);
+                res += c;
+                document.getElementById("result").innerHTML = res;
+            }
+            else { //or assign the next operator
+                curOperator = c;
+            }
+        }
+        if ((prevOperator == '+' || prevOperator == '-') && !curOperator && prevNum && curNum) {
+            console.log("vicky", "test");
+            if (c == '*' || c == '/') {
+                curOperator = c;
+                return;
+            }
+        }
+        if ((prevOperator == "-" || prevOperator == "+") && (curOperator == '*' || curOperator == "/") && prevNum && curNum) {
+            console.log("i got here");
+            var temp = String(curNum) + curOperator + numInStr;
+            curNum = eval(temp);
+            numInStr = '';
+            console.log("vicky", curNum);
+            res = curNum;
+            document.getElementById("result").innerHTML = res;
+        }
+        //once we have 2 numbers and operator - run calculation
+        if (prevNum && curNum && curOperator) {
+            calcValues();
+            res += curOperator;
+            numInStr = '';
+            prevOperator = curOperator;
+            curOperator = null;
+        }
+    }
+}
+function afterGettingOperator(c) {
+    console.log("entering other function");
     if (isOperator(c)) {
         //assign the first number
         if (!prevNum) {
@@ -150,10 +224,15 @@ function deleteLast() {
         document.getElementById("result").innerHTML = res;
     }
 }
-var btns = document.querySelectorAll('.numbutton');
-btns.forEach(function (btn) {
+var numBtns = document.querySelectorAll('.numbutton');
+numBtns.forEach(function (btn) {
     btn.addEventListener('click', function () { return checkStatus(btn.getAttribute('id')); });
 });
+var opsBtns = document.querySelectorAll('.calcbutton');
+opsBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () { return checkStatus(btn.getAttribute('value')); });
+});
+document.getElementById('equal').addEventListener('click', eq);
 document.addEventListener('DOMContentLoaded', loadCalc);
 function loadCalc() {
     scientific = false;

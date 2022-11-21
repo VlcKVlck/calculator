@@ -27,10 +27,12 @@ function hideHistory(){
     if (elem.style.visibility=='visible'){
         elem.style.visibility = 'hidden';
         btn.style.border="5px solid black";
+
     }
     else{
         elem.style.visibility = 'visible';
         btn.style.border="inherit";
+
     }
 }
 
@@ -40,24 +42,27 @@ function lightScreen (){
     if (elem.style.backgroundColor=='green') {
         btn.style.border='none'
         elem.style.backgroundColor = "inherit";
-    }else{
+        }else{
         elem.style.backgroundColor='green';
         btn.style.border = '5px solid black';
     }
 
 }
 function sciMode(){
+
     const elem =document.getElementById('scientific');
     const btn = document.getElementById("sciMode");
     if (scientific==false){
-        elem.style.visibility = 'hidden';
-        btn.style.border="inherit";
+        elem.style.visibility = 'visible';
+        btn.style.border="5px solid black";
         scientific=true;
+        clearRes ();
     }
     else{
         elem.style.visibility = 'visible';
-        btn.style.border="5px solid black";
+        btn.style.border="inherit";
         scientific=false;
+        clearRes ();
 
     }
 }
