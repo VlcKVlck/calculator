@@ -1,6 +1,3 @@
-.bright main {
-  background-color: #FDFDBD;
-}
 .bright .opsbutton, .bright .calcbutton {
   background-color: #B8E8FC;
 }
@@ -11,9 +8,6 @@
   background-color: #B8E8FC;
 }
 
-.dark main {
-  background-color: #FFE15D;
-}
 .dark .opsbutton, .dark .calcbutton {
   background-color: #DC3535;
 }

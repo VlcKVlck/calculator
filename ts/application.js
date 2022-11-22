@@ -31,12 +31,12 @@ function hideHistory() {
 function lightScreen() {
     var elem = document.getElementById('result');
     var btn = document.getElementById('lightbulb');
-    if (elem.style.backgroundColor == 'green') {
+    if (elem.style.backgroundColor == 'yellow') {
         btn.style.border = 'none';
         elem.style.backgroundColor = "inherit";
     }
     else {
-        elem.style.backgroundColor = 'green';
+        elem.style.backgroundColor = 'yellow';
         btn.style.border = '5px solid black';
     }
 }
