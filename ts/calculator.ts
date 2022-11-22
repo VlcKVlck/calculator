@@ -267,15 +267,15 @@ function loadCalc() {
 
     /**------------------------------------------------------------------------------------**/
 
-// function plusMinus(){
-//     if (numInStr){
-//         if (numInStr[0] =="-"){
-//             numInStr=numInStr.slice(1,);
-//         }
-//         else{
-//             numInStr = "-"+numInStr;
-//         }
-//     }
-// }
+function plusMinus(){
+    if (numInStr){
+        if (numInStr[0] =="-"){
+            numInStr=numInStr.slice(1,);
+       }
+        else{
+            numInStr = "-"+numInStr;
+        }
+    }
+}
 
 

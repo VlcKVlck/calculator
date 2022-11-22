@@ -35,6 +35,8 @@ $Fontcolor: black;
   display: grid;
   grid-template-columns: 2fr 5fr 2fr;
   grid-template-areas: "history main scientific";
+  justify-content: center;
+  padding: 10px;
   column-gap: 0;
   @media only screen and (max-device-width: 600px)  {
   display: grid;
