@@ -5,7 +5,7 @@
     main{
     //background-color: $background;
   }
-  .opsbutton, .calcbutton {
+  .opsbutton, .calcbutton, .squarebuttons {
     background-color: $otherbuttons;
   }
   .numbutton{
@@ -28,21 +28,29 @@ $Fontcolor: black;
   button:hover, input:hover, select:hover{
     cursor: pointer;
   }
+body {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media only screen and (max-device-width: 600px){
+  }
+}
 .site {
   display: grid;
   grid-template-columns: 2fr 5fr 2fr;
   grid-template-areas: "history main scientific";
   justify-content: center;
-  padding: 10px;
+  padding: 10%;
   column-gap: 0;
   @media only screen and (max-device-width: 600px)  {
   display: grid;
+  row-gap: 10px;
   grid-template-columns: 1fr;
   grid-template-rows: 3fr 2fr 2fr;
   grid-template-areas: "main"
                       "scientific"
                       "history";
-
 }
 }
 
@@ -88,7 +96,7 @@ main {
   grid-area: main;
   display: grid;
   grid-template-columns: 2fr 3fr 3fr 3fr 2fr;
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-rows: repeat(7, 1fr);
   margin:0;
   padding: 0;
 
@@ -120,34 +128,20 @@ main {
     flex-direction: column;
   }
 
-  button, #result{
-    img {
-      height: 2.5vw;
-    }
-    box-sizing: border-box;
-    color: $Fontcolor;
-    font-weight: bolder;
-    height: 10vh;
-    text-align: center;
-    margin: 0.2vh;
-    border: none;
-    font-size: 3.5vw;
-    text-overflow-ellipsis: set;
-  }
   #title {
     font-family: calbiri, serif;
     font-size: 7vm;
   }
-  .numbutton:active {
+  .numbutton:active, .scibuttons:active {
      //box-shadow: 0 5px #fffefe;
-    transform: translateY(4px);
+    //transform: translateY(4px);
     color:white;
     border: none;
   }
   button:hover{
     border: 1px white solid;
   }
-  .opsbutton:active, .widebutton:active{
+  .opsbutton:active, .widebutton:active, {
     //box-shadow: 0 5px #666;
     transform: translateY(4px);
     background-color: inherit;
@@ -155,11 +149,43 @@ main {
   }
 }
 
+button, #result{
+  img {
+    height: 2.5vw;
+  }
+  box-sizing: border-box;
+  color: $Fontcolor;
+  font-weight: bolder;
+  height: 10vh;
+  text-align: center;
+  margin: 0.2vh;
+  border: none;
+  font-size: 3.5vw;
+  text-overflow-ellipsis: set;
+}
+
+.squarebuttons{
+  width: 10vh;
+  font-size: 2vmax;
+  box-sizing: border-box;
+  overflow: clip;
+  column-gap: 0;
+}
 
 .scientific{
   grid-area: scientific;
-}
+  display: grid;
 
+  .sciOperators{
+
+  }
+}
+.invis{
+  visibility: hidden;
+  width: 10vh;
+
+
+}
 
 
 
