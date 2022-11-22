@@ -278,4 +278,4 @@ function plusMinus(){
     }
 }
 
-
+document.getElementById('square').addEventListener('click', squareRoot)
