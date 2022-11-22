@@ -58,12 +58,13 @@ button:hover, input:hover, select:hover {
   padding-right: 2px;
   display: inline-block;
   box-sizing: border-box;
+  font-size: 0.5em;
 }
 
 .historybody {
   grid-row: 2/9;
   grid-column: 1/2;
-  font-size: 2em;
+  font-size: 1em;
   font-weight: bolder;
   text-align: center;
   box-sizing: border-box;
