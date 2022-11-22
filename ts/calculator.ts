@@ -7,43 +7,11 @@ let res =''; //The output string displayed to user
 let historyRes = ''; //Displays history
 let prevNum = null;
 let curNum = null;
-let thirdNum =null;
 let curOperator =null;
 let prevOperator =null;
 let total = 0;
+let eqPressed = false;
 const isValidNumber = (num) => /^(\d*)(\.\d*)?$/g.test(num);
-
-
-function checkStatus (c){
-    console.log(scientific, c)
-    if (scientific == true){
-        sciCalc(c);
-    }
-    else {
-        insert(c);
-    }
-}
-
-function sciCalc (c) {
-
-    let temp = numInStr + c;
-    if (isValidNumber(temp)) { //use regex to check if adding the digit will provide a valid number
-        res += c;
-        numInStr += c;
-        document.getElementById("result").innerHTML = res;
-        return;
-    }
-    console.log("entered", "prevoperator:", prevOperator, "prevnum:", prevNum, "curnum:", curNum)
-    afterGettingOperatorSci(c);
-    console.log("after get operator", "prevoperator:", prevOperator, "prevnum:", prevNum, "curnum:", curNum)
-}
-
-
-
-
-
-
-
 
 function isOperator(o) {
     if (o == '/' || o == '*' || o == '-' || o == '+') {
@@ -51,25 +19,45 @@ function isOperator(o) {
     }
 }
 
-// Insert function receives user input and manipulates it
-function insert(c) {
-    console.log("entering insert function")
+function checkStatus (c){
+    console.log(scientific, c)
+    if (scientific == true){
+        sciCalc(c);
+    }
+    else {
+        arithmeticCalc(c);
+    }
+}
+
+// sciCalc function receives user input and manipulates it in non scientific mode
+function sciCalc (c) {
     let temp = numInStr + c;
     if (isValidNumber(temp)) { //use regex to check if adding the digit will provide a valid number
+        if (eqPressed){
+            console.log("yo")
+            clearRes();
+            eqPressed=false;
+        }
         res += c;
         numInStr += c;
         document.getElementById("result").innerHTML = res;
-        return;
-    }
-    afterGettingOperator(c);
+        if (!(prevNum && curNum)) {
+            return;
+        }
 
-}
-//Inputing an operator will cause a number to convert from string input to a number
-//and based on the current number of operators and operands will determine if to run a calculation
-//or wait for more information from user
-function afterGettingOperatorSci(c){
-    console.log("entering other function")
-    if (isOperator(c)) {
+    }
+    console.log("after get str", "curoperator:", curOperator, "prevoperator:", prevOperator, "prevnum:", prevNum, "curnum:", curNum)
+
+    if ((prevOperator == "-" || prevOperator == "+") && (curOperator =='*' || curOperator =="/") && prevNum && curNum && numInStr){
+        console.log("i got here")
+        let temp = String(curNum) + curOperator + numInStr
+        curNum = eval (temp)
+        numInStr = ''
+        console.log("vicky", curNum)
+        res = prevNum + prevOperator + curNum;
+        document.getElementById("result").innerHTML = res;
+    }
+        if (isOperator(c)) {
         //assign the first number
         if (!prevNum) {
             prevNum = Number(numInStr);
@@ -95,6 +83,8 @@ function afterGettingOperatorSci(c){
                 document.getElementById("result").innerHTML = res;
             } else { //or assign the next operator
                 curOperator = c;
+                res += c;
+                document.getElementById("result").innerHTML = res;
             }
         }
 
@@ -102,20 +92,17 @@ function afterGettingOperatorSci(c){
         console.log("vicky", "test")
             if (c == '*' || c == '/') {
                 curOperator = c;
-                return
+                return;
             }
         }
-        if ((prevOperator == "-" || prevOperator == "+") && (curOperator =='*' || curOperator =="/") && prevNum && curNum){
-            console.log("i got here")
-            let temp = String(curNum) + curOperator + numInStr
-            curNum = eval (temp)
-            numInStr = ''
-            console.log("vicky", curNum)
-            res = curNum;
-            document.getElementById("result").innerHTML = res;
+        if ((prevOperator == "-" || prevOperator == "+") && (curOperator =='*' || curOperator =="/") && prevNum && curNum && !numInStr){
+            console.log("i got in the return func")
+            return
         }
+        console.log("***")
 
 
+        console.log("&&&&")
         //once we have 2 numbers and operator - run calculation
         if (prevNum && curNum && curOperator) {
             calcValues();
@@ -124,11 +111,26 @@ function afterGettingOperatorSci(c){
             prevOperator = curOperator;
             curOperator = null;
         }
+
     }
+    console.log("after get operator", "curoperator:", curOperator, "prevoperator:", prevOperator, "prevnum:", prevNum, "curnum:", curNum)
 }
 
-function afterGettingOperator(c){
-    console.log("entering other function")
+
+// arithmeticCalc function receives user input and manipulates it in non scientific mode
+function arithmeticCalc(c) {
+    console.log("entering insert function")
+    let temp = numInStr + c;
+    if (isValidNumber(temp)) { //use regex to check if adding the digit will provide a valid number
+        if (eqPressed){
+            clearRes();
+            eqPressed=false;
+        }
+        res += c;
+        numInStr += c;
+        document.getElementById("result").innerHTML = res;
+        return;
+    }
     if (isOperator(c)) {
         //assign the first number
         if (!prevNum) {
@@ -157,7 +159,6 @@ function afterGettingOperator(c){
                 curOperator = c;
             }
         }
-
         //once we have 2 numbers and operator - run calculation
         if (prevNum && curNum && curOperator) {
             calcValues();
@@ -168,6 +169,7 @@ function afterGettingOperator(c){
         }
     }
 }
+
 
 //Calcvalues performs the basic arithmetic calculations
 function calcValues() {
@@ -206,6 +208,7 @@ function calcValues() {
 
 //Eq is triggered upon hitting the "=" sign.
 function eq() {
+    eqPressed=true;
     calcValues();
     clearCalc();
 }
