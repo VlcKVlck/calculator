@@ -15,7 +15,7 @@ const isValidNumber = (num) => /^(\d*)(\.\d*)?$/g.test(num);
 let setRes =document.getElementById("result");
 
 function isOperator(o) {
-    if (o == '/' || o == '*' || o == '-' || o == '+' || o=='%' || o =='^' || o=='v') {
+    if (o == '/' || o == '*' || o == '-' || o == '+' || o=='%' || o =='^' || o=='√') {
         return true;
     }
 }
@@ -33,6 +33,7 @@ function checkStatus (c){
 //Handles key presses => operators and operands
 function inputIntoEquation(c){
     let temp = numInStr + c;
+    // console.log("yo")
     if (isValidNumber(temp)) {
         if (eqPressed){
             clearCalc();
@@ -101,13 +102,17 @@ function sciCalcEval() {
             inputStr = inputStr.replace('^', '**')
         }
         prevNum = eval(inputStr)
-        if (curOperator == 'v') {
-            prevNum = Math.pow(curNum, (1 / Number(numInStr)));
+        if (curOperator == '√') {
+            curNum = Math.pow(curNum, (1 / prevNum));
+            // prevNum = eval (res.replace())
+        }
+        if (prevOperator == '√'){
+            console.log("vikvik")
+            prevNum = Math.pow(prevNum, (1 / Number(numInStr)));
         }
         numInStr = ''
         console.log("vicky", curNum);
         curNum=null;
-        setRes.innerHTML = res;
         total=prevNum;
         displayCalc();
 }
@@ -130,7 +135,6 @@ function sciCalc (c) {
             return
         }
         getCalcOnOperator();
-
     }
 }
 
@@ -138,6 +142,7 @@ function sciCalc (c) {
 // arithmeticCalc function receives user input and manipulates it in non scientific mode
 //runs calculations once we have two operands. No operations order followed.
 function arithmeticCalc(c) {
+
     console.log("numinstr:", numInStr, "prevnum:", prevNum, "curNum", curNum, "preopearto", prevOperator, "curoperator", curOperator)
     inputIntoEquation(c);
     if (isOperator(c)) {
@@ -177,7 +182,7 @@ function calcValuesArithmetic() {
         total = prevNum**curNum;
     }
     if (prevOperator == 'v'){
-        total = eval (String(prevNum) + prevOperator + String(curNum))
+        total = Math.pow(curNum, (1 / prevNum))
     }
     //
     if ((numInStr && !prevNum) || (prevNum && !curNum)) { //handles multiple presses on "="
@@ -271,26 +276,60 @@ function timesSquare(){
     if (numInStr){
         if (prevNum){
             curNum=Number(numInStr)*Number(numInStr)
-            res= res.replace(numInStr, String(curNum))
+            res = res.replace(numInStr, curNum);
+            numInStr='';
             setRes.innerHTML = res
         }
         else{
             prevNum=Number(numInStr)*Number(numInStr);
+            res=numInStr +"^" + 2;
             numInStr='';
-            res=prevNum;
             setRes.innerHTML = res
             total=prevNum;
+            displayCalc();
         }
     }
     else if (prevNum){
-        curNum=Number(numInStr)*Number(numInStr)
-        res= res.replace(numInStr, String(curNum))
+        curNum=prevNum*prevNum
+        res = res.replace(prevNum, curNum);
+        numInStr='';
         setRes.innerHTML = res
     }
-    // displayCalc();
+
 }
 
 function rootFunc () {
+    if (numInStr){
+        if (prevNum){
+            if (prevNum <0){
+                alert (Error)
+            }
+            curNum=Math.pow(prevNum, 1/2)
+            res = res.replace(numInStr, curNum);
+            numInStr='';
+            setRes.innerHTML = res
+        }
+        else{
+            if (Number(numInStr) <0){
+                alert (Error)
+            }
+            prevNum= Math.pow(Number(numInStr), 1/2);
+            res="v" + numInStr ;
+            numInStr='';
+            setRes.innerHTML = res
+            total=prevNum;
+            displayCalc();
+        }
+    }
+    else if (prevNum){
+        if (prevNum <0){
+            alert (Error)
+        }
+        curNum=Math.pow(prevNum, 1/2);
+        res = res.replace(prevNum, curNum);
+        numInStr='';
+        setRes.innerHTML = res
+    }
 
 }
 
