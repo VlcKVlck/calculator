@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc ts/application.ts ts/calculator.ts --watch & sass style.scss style.css --watch",
+    "watchcss": "sass style.scss style.css --watch",
+    "watchtsc": "tsc ts/application.ts ts/calculator.ts --watch",
+    "dev": "npm run watchcss & npm run watchtsc",
     "setup": "sass style.scss style.css & tsc ts/application.ts ts/calculator.ts",
     "install": "npm init . & npm i sass --save-dev & npm i typescript --save-dev"
   },

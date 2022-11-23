@@ -1,4 +1,4 @@
-.bright .opsbutton, .bright .calcbutton, .bright .squarebuttons {
+.bright .opsbutton, .bright .calcbutton, .bright .squarebuttons, .bright .mainconfig button {
   background-color: #B8E8FC;
 }
 .bright .numbutton {
@@ -8,14 +8,14 @@
   background-color: #B8E8FC;
 }
 
-.dark .opsbutton, .dark .calcbutton, .dark .squarebuttons {
-  background-color: #DC3535;
+.dark .opsbutton, .dark .calcbutton, .dark .squarebuttons, .dark .mainconfig button {
+  background-color: #22ace7;
 }
 .dark .numbutton {
-  background-color: #F49D1A;
+  background-color: #4bf570;
 }
 .dark .widebutton, .dark .result {
-  background-color: #DC3535;
+  background-color: #22ace7;
 }
 
 button:hover, input:hover, select:hover {
@@ -28,22 +28,15 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 .site {
   display: grid;
   grid-template-columns: 2fr 5fr 2fr;
   grid-template-areas: "history main scientific";
   justify-content: center;
-  padding: 10%;
+  padding-top: 10%;
+  padding-bottom: 10%;
   column-gap: 0;
-}
-@media only screen and (max-device-width: 600px) {
-  .site {
-    display: grid;
-    row-gap: 10px;
-    grid-template-columns: 1fr;
-    grid-template-rows: 3fr 2fr 2fr;
-    grid-template-areas: "main" "scientific" "history";
-  }
 }
 
 .history {
@@ -63,9 +56,9 @@ body {
   grid-column: 1/2;
   margin: 0;
   padding-right: 2px;
-  display: inline-block;
+  font-family: "calibri", Sarif;
   box-sizing: border-box;
-  font-size: 0.5em;
+  font-size: 1em;
 }
 
 .historybody {
@@ -79,8 +72,9 @@ body {
   overflow-y: scroll;
 }
 
-#clockimg {
-  height: 1em;
+#clockimg, #rootimg {
+  height: 0.8em;
+  display: inline;
 }
 
 main {
@@ -158,6 +152,7 @@ button img, #result img {
 .scientific {
   grid-area: scientific;
   display: grid;
+  font-family: "calibri", Sarif;
 }
 .invis {
   visibility: hidden;
@@ -176,6 +171,13 @@ button img, #result img {
   font-family: "calibri", serif;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+}
+.mainconfig button {
+  height: 4vh;
+  font-size: 1em;
+  padding: 3%;
+  border-radius: 2px;
 }
 
 .helpsite {
@@ -190,6 +192,16 @@ button img, #result img {
   padding-left: 3vw;
   margin: 0;
   height: 100vh;
+}
+
+@media only screen and (max-device-width: 600px) {
+  .site {
+    display: grid;
+    row-gap: 10px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 2fr 2fr;
+    grid-template-areas: "main" "scientific" "history";
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

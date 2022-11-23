@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="favicon.png" rel="icon">
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 
@@ -64,22 +63,23 @@
     </main>
 
     <div class="scientific" id="scientific" >
-        <div class="sciOperators">
-            <button type="button" class="squarebuttons" id="square" > X<sup>2</sup> </button>
-            <button type="button" class="squarebuttons" id="root"  > <sup>2</sup>√X </button>
-            <button type="button" class="squarebuttons" id="xToY"  > X<sup>y</sup> </button>
-            <button type="button" class="squarebuttons" id="yRootX" > <sup>y</sup>√X</button>
-            <button type="button" class="squarebuttons" id="mod" > mod </button>
-            <button type="button" class="squarebuttons" id="pie" > 𝝅 </button>
-
+        <div class="scientifictitle">
+            <h1><img src="root.png" id="rootimg"> Scientific </h1>
         </div>
+        <div class="scientificbody" id="scientificbody"> </div>
+            <div class="sciOperators">
+                <button type="button" class="squarebuttons" id="square" > X<sup>2</sup> </button>
+                <button type="button" class="squarebuttons" id="root"  > <sup>2</sup>√X </button>
+                <button type="button" class="calcbutton" id="xToY" value="^" > X<sup>y</sup> </button>
+                <button type="button" class="calcbutton" id="yRootX" value="v"> <sup>y</sup>√X</button>
+                <button type="button" class="calcbutton" id="mod" value="%"> mod </button>
+                <button type="button" class="squarebuttons" id="pie" > 𝝅 </button>
 
-
-
+            </div>
     </div>
 
 
-</div>
+
 <script src="./ts/application.js"></script>
 <script src="./ts/calculator.js"></script>
 </body>

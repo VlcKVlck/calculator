@@ -1,5 +1,6 @@
 var params = null;
 function loadApp() {
+    document.getElementById("pagebody").className = "dark";
     document.getElementById('scientific').style.visibility = "hidden";
     document.getElementById('history').style.visibility = "visible";
     if (window.location.search) {

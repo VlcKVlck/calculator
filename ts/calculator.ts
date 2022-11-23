@@ -12,13 +12,14 @@ let prevOperator =null;
 let total = 0;
 let eqPressed = false;
 const isValidNumber = (num) => /^(\d*)(\.\d*)?$/g.test(num);
+let setRes =document.getElementById("result");
 
 function isOperator(o) {
-    if (o == '/' || o == '*' || o == '-' || o == '+') {
+    if (o == '/' || o == '*' || o == '-' || o == '+' || o=='%' || o =='^' || o=='v') {
         return true;
     }
 }
-
+//CheckStatus redirects incoming key presses based on status: scientific/arithmetics
 function checkStatus (c){
     console.log(scientific, c)
     if (scientific == true){
@@ -29,149 +30,126 @@ function checkStatus (c){
     }
 }
 
-// sciCalc function receives user input and manipulates it in non scientific mode
-function sciCalc (c) {
+//Handles key presses => operators and operands
+function inputIntoEquation(c){
     let temp = numInStr + c;
-    if (isValidNumber(temp)) { //use regex to check if adding the digit will provide a valid number
+    if (isValidNumber(temp)) {
         if (eqPressed){
-            console.log("yo")
             clearCalc();
+            res='';
             eqPressed=false;
+            prevNum=null;
+            setRes.innerHTML= res;
         }
         res += c;
         numInStr += c;
-        document.getElementById("result").innerHTML = res;
+        setRes.innerHTML = res;
         if (!(prevNum && curNum)) {
             return;
         }
-
     }
-    if ((prevOperator == "-" || prevOperator == "+") && (curOperator =='*' || curOperator =="/") && prevNum && curNum && numInStr){
+}
+
+//calls for a calculation once there are two operands and an operator
+function getCalcOnOperator(){
+    if (prevNum && curNum && curOperator) {
+        calcValuesArithmetic();
+        res += curOperator;
+        numInStr = '';
+        prevOperator = curOperator;
+        curOperator = null;
+    }
+}
+
+function onOperator (c){
+    if (eqPressed){
+        eqPressed=false;
+    }
+        //assign the first number
+    if (!prevNum) {
+        prevNum = Number(numInStr);
+        numInStr = '';
+        total = prevNum;
+    }
+    //assign the second number if we have the first number
+    else if (!curNum) {
+        curNum = Number(numInStr)
+        numInStr = '';
+    }
+    //assign operators
+    if (!prevOperator) {
+        prevOperator = c;
+        res += c;
+        setRes.innerHTML = res;
+        return;
+    } else {
+        if (prevNum && prevOperator && !curNum) { //check if you need to reassign opeartor
+            prevOperator = c
+            res = res.slice(0, -1);
+            res += c;
+            setRes.innerHTML = res;
+        } else { //or assign the next operator
+            curOperator = c;
+        }
+    }
+}
+//Runs the calculation for Sci modes, taking into account order of operations
+function sciCalcEval() {
         console.log("i got here")
-        let temp = String(curNum) + curOperator + numInStr
-        curNum = eval (temp)
+        let inputStr = res;
+        if (curOperator == '^' || prevOperator == '^') {
+            inputStr = inputStr.replace('^', '**')
+        }
+        prevNum = eval(inputStr)
+        if (curOperator == 'v') {
+            prevNum = Math.pow(curNum, (1 / Number(numInStr)));
+        }
         numInStr = ''
-        console.log("vicky", curNum)
-        res = prevNum + prevOperator + curNum;
-        document.getElementById("result").innerHTML = res;
+        console.log("vicky", curNum);
+        curNum=null;
+        setRes.innerHTML = res;
+        total=prevNum;
+        displayCalc();
+}
+// sciCalc function receives user input and manipulates it in a scientific mode. Adheres to
+//order of operations.
+function sciCalc (c) {
+    inputIntoEquation(c);
+    if (prevOperator && curOperator && prevNum && curNum && numInStr && isOperator(c)) {
+        sciCalcEval();
     }
     if (isOperator(c)) {
-        if (eqPressed){
-            eqPressed=false;
+        onOperator(c);
+        if (!curOperator && prevNum && curNum) {
+             return;
         }
-        //assign the first number
-        if (!prevNum) {
-            prevNum = Number(numInStr);
-            numInStr = '';
-            total = prevNum;
-        }
-        //assign the second number if we have the first number
-        else if (!curNum) {
-            curNum = Number(numInStr)
-            numInStr = '';
-        }
-        //assign operators
-        if (!prevOperator) {
-            prevOperator = c;
-            res += c;
-            document.getElementById("result").innerHTML = res;
-            return;
-        } else {
-            if (prevNum && prevOperator && !curNum) { //check if you need to reassign opeartor
-                prevOperator = c
-                res = res.slice(0, -1);
-                res += c;
-                document.getElementById("result").innerHTML = res;
-            } else { //or assign the next operator
-                curOperator = c;
-                res += c;
-                document.getElementById("result").innerHTML = res;
-            }
-        }
-        if ((prevOperator == '+' || prevOperator == '-') && !curOperator && prevNum && curNum) {
-        console.log("vicky", "test")
-            if (c == '*' || c == '/') {
-                curOperator = c;
-                return;
-            }
-        }
-        if ((prevOperator == "-" || prevOperator == "+") && (curOperator =='*' || curOperator =="/") && prevNum && curNum && !numInStr){
+        if (((prevOperator != "%" && prevOperator !='^' && prevOperator != '√')  && curOperator && prevNum && curNum && !numInStr)){
             console.log("i got in the return func")
+            res +=c;
+            setRes.innerHTML  = res;
             return
         }
-        //once we have 2 numbers and operator - run calculation
-        if (prevNum && curNum && curOperator) {
-            calcValues();
-            res += curOperator;
-            numInStr = '';
-            prevOperator = curOperator;
-            curOperator = null;
-        }
+        getCalcOnOperator();
+
     }
 }
 
 
 // arithmeticCalc function receives user input and manipulates it in non scientific mode
+//runs calculations once we have two operands. No operations order followed.
 function arithmeticCalc(c) {
     console.log("numinstr:", numInStr, "prevnum:", prevNum, "curNum", curNum, "preopearto", prevOperator, "curoperator", curOperator)
-    let temp = numInStr + c;
-    if (isValidNumber(temp)) { //use regex to check if adding the digit will provide a valid number
-        if (eqPressed){
-            clearCalc();
-            eqPressed=false;
-        }
-        res += c;
-        numInStr += c;
-        document.getElementById("result").innerHTML = res;
-        return;
-    }
+    inputIntoEquation(c);
     if (isOperator(c)) {
-        if (eqPressed){
-            eqPressed=false;
-        }
-        //assign the first number
-        if (!prevNum) {
-            prevNum = Number(numInStr);
-            numInStr = '';
-            total = prevNum;
-        }
-        //assign the second number if we have the first number
-        else if (!curNum) {
-            curNum = Number(numInStr)
-            numInStr = '';
-        }
-        //assign operators
-        if (!prevOperator) {
-            prevOperator = c;
-            res += c;
-            document.getElementById("result").innerHTML = res;
-            return;
-        } else {
-            if (prevNum && prevOperator && !curNum) { //check if you need to reassign opeartor
-                prevOperator = c
-                res = res.slice(0, -1);
-                res += c;
-                document.getElementById("result").innerHTML = res;
-            } else { //or assign the next operator
-                curOperator = c;
-            }
-        }
-        //once we have 2 numbers and operator - run calculation
-        if (prevNum && curNum && curOperator) {
-            calcValues();
-            res += curOperator;
-            numInStr = '';
-            prevOperator = curOperator;
-            curOperator = null;
-        }
+        onOperator(c);
+        getCalcOnOperator();
     }
     console.log("numinstr:", numInStr, "prevnum:", prevNum, "curNum", curNum, "preopearto", prevOperator, "curoperator", curOperator)
-
 }
 
 
 //CalcValues performs the basic arithmetic calculations
-function calcValues() {
+function calcValuesArithmetic() {
     if (numInStr && prevNum && !curNum) {//handles the final number conversion from str to num
         curNum = Number(numInStr);
         numInStr = '';
@@ -192,30 +170,49 @@ function calcValues() {
     if (prevOperator == '-') {
         total = prevNum - curNum;
     }
+    if (prevOperator == '%'){
+        total=prevNum%curNum;
+    }
+    if (prevOperator =='^'){
+        total = prevNum**curNum;
+    }
+    if (prevOperator == 'v'){
+        total = eval (String(prevNum) + prevOperator + String(curNum))
+    }
+    //
     if ((numInStr && !prevNum) || (prevNum && !curNum)) { //handles multiple presses on "="
         total = prevNum;
     }
+    prevNum = total;
+    curNum = null;
+    displayCalc();
+}
+
+function displayCalc (){
     historyRes = historyRes + res + "<br>";
     document.getElementById("historybody").innerHTML = historyRes;
     res = String(total);
     historyRes = historyRes + "=" + "<br>" + res + "<br>";
-    prevNum = total;
-    curNum = null;
-    document.getElementById("result").innerHTML = res;
+    setRes.innerHTML = res;
     document.getElementById("historybody").innerHTML = historyRes;
 }
 
 //Eq is triggered upon hitting the "=" sign.
 function eq() {
     eqPressed=true;
-    calcValues();
+    if (scientific==true){
+        sciCalcEval();
+    }
+    else{
+        calcValuesArithmetic();
+    }
     clearCalc();
 }
 
 //clears the screen and all calculation data
 function clearRes() {
-    res = '';
-    document.getElementById("result").innerHTML = res;
+    res='';
+    setRes.innerHTML = res;
     prevNum = null;
     historyRes = '';
     document.getElementById("historybody").innerHTML = historyRes;
@@ -239,12 +236,78 @@ function deleteLast() {
         numInStr = numInStr.slice(0, -1);
         res = res.slice(0, -1);
         console.log(res)
-        document.getElementById("result").innerHTML = res;
+        setRes.innerHTML = res;
     } else if (prevOperator) {
         prevOperator = null;
         res = res.slice(0, -1);
-        document.getElementById("result").innerHTML = res;
+        setRes.innerHTML = res;
     }
+    else if (prevNum){
+        prevNum=parseInt(String(prevNum/10));
+        res=prevNum;
+        numInStr=String(prevNum);
+        setRes.innerHTML = res;
+    }
+}
+
+//Handles the +/- sign.
+function plusMinusFunc(){
+    if (numInStr) {
+        console.log("vicky")
+        let newNumInStr = String(Number(numInStr) * (-1));
+        res = res.replace(numInStr, newNumInStr)
+        numInStr=newNumInStr;
+        setRes.innerHTML = res;
+    }
+    else if (prevNum){
+        let newNum = String((prevNum) * (-1));
+        res = res.replace(String(prevNum), newNum)
+        prevNum=newNum;
+        setRes.innerHTML = res;
+    }
+}
+
+function timesSquare(){
+    if (numInStr){
+        if (prevNum){
+            curNum=Number(numInStr)*Number(numInStr)
+            res= res.replace(numInStr, String(curNum))
+            setRes.innerHTML = res
+        }
+        else{
+            prevNum=Number(numInStr)*Number(numInStr);
+            numInStr='';
+            res=prevNum;
+            setRes.innerHTML = res
+            total=prevNum;
+        }
+    }
+    else if (prevNum){
+        curNum=Number(numInStr)*Number(numInStr)
+        res= res.replace(numInStr, String(curNum))
+        setRes.innerHTML = res
+    }
+    // displayCalc();
+}
+
+function rootFunc () {
+
+}
+
+function  setPie(){
+    if (!numInStr){
+        numInStr=String(Math.PI)
+        res+=numInStr;
+        setRes.innerHTML=res;
+    }
+}
+
+// function calcMod(){
+//
+// }
+
+function loadCalc() {
+    scientific = false;
 }
 
 const numBtns = document.querySelectorAll('.numbutton')
@@ -257,25 +320,20 @@ opsBtns.forEach(function (btn) {
     btn.addEventListener('click', () => checkStatus(btn.getAttribute('value')))
 });
 
+document.getElementById('plusminus').addEventListener('click', plusMinusFunc);
 document.getElementById('equal').addEventListener('click', eq);
 
 document.addEventListener('DOMContentLoaded', loadCalc);
+document.getElementById('square').addEventListener('click', timesSquare)
 
-function loadCalc() {
-    scientific = false;
-}
+document.getElementById('root').addEventListener('click', rootFunc)
+
+document.getElementById('pie').addEventListener('click', setPie)
+
+
+
 
     /**------------------------------------------------------------------------------------**/
 
-function plusMinus(){
-    if (numInStr){
-        if (numInStr[0] =="-"){
-            numInStr=numInStr.slice(1,);
-       }
-        else{
-            numInStr = "-"+numInStr;
-        }
-    }
-}
 
-document.getElementById('square').addEventListener('click', squareRoot)
+

@@ -5,7 +5,7 @@
     main{
     //background-color: $background;
   }
-  .opsbutton, .calcbutton, .squarebuttons {
+  .opsbutton, .calcbutton, .squarebuttons, .mainconfig button {
     background-color: $otherbuttons;
   }
   .numbutton{
@@ -18,7 +18,7 @@
 }
 
     @include themes("bright", #FDFDBD, #C8FFD4, #B8E8FC, #B1AFFF);
-    @include themes("dark", #FFE15D,#F49D1A,#DC3535,#B01E68);
+    @include themes("dark", #0f7a40, #4bf570, #22ace7, #ffc100);
 
 
 $mainfont: calibri, serif;
@@ -33,25 +33,15 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  @media only screen and (max-device-width: 600px){
-  }
-}
+ }
 .site {
   display: grid;
   grid-template-columns: 2fr 5fr 2fr;
   grid-template-areas: "history main scientific";
   justify-content: center;
-  padding: 10%;
+  padding-top: 10%;
+  padding-bottom: 10%;
   column-gap: 0;
-  @media only screen and (max-device-width: 600px)  {
-  display: grid;
-  row-gap: 10px;
-  grid-template-columns: 1fr;
-  grid-template-rows: 3fr 2fr 2fr;
-  grid-template-areas: "main"
-                      "scientific"
-                      "history";
-}
 }
 
 .history {
@@ -64,31 +54,29 @@ body {
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
-
 }
-  .historytitle {
-    grid-row: 1/2;
-    grid-column: 1/2;
-    margin: 0;
-    padding-right: 2px;
-    display: inline-block;
-    box-sizing: border-box;
-    font-size: 0.5em;
-  }
-  .historybody {
-    grid-row: 2/9;
-    grid-column: 1/2;
-    font-size: 1em;
-    font-weight: bolder;
-    text-align: center;
-    box-sizing: border-box;
-    max-height: 60vh;
-    overflow-y: scroll;
-
-
-  }
-  #clockimg {
-    height: 1em;
+.historytitle {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  margin: 0;
+  padding-right: 2px;
+  font-family: "calibri", Sarif;
+  box-sizing: border-box;
+  font-size: 1em;
+}
+.historybody {
+  grid-row: 2/9;
+  grid-column: 1/2;
+  font-size: 1em;
+  font-weight: bolder;
+  text-align: center;
+  box-sizing: border-box;
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+#clockimg, #rootimg {
+    height: 0.8em;
+    display: inline;
   }
 
 
@@ -133,8 +121,6 @@ main {
     font-size: 7vm;
   }
   .numbutton:active, .scibuttons:active {
-     //box-shadow: 0 5px #fffefe;
-    //transform: translateY(4px);
     color:white;
     border: none;
   }
@@ -142,7 +128,6 @@ main {
     border: 1px white solid;
   }
   .opsbutton:active, .widebutton:active, {
-    //box-shadow: 0 5px #666;
     transform: translateY(4px);
     background-color: inherit;
     border: none;
@@ -175,6 +160,7 @@ button, #result{
 .scientific{
   grid-area: scientific;
   display: grid;
+  font-family: "calibri", Sarif;
 
   .sciOperators{
 
@@ -203,6 +189,14 @@ button, #result{
   font-family: "calibri", serif;
   justify-content: center;
   align-items: center;
+  width: 100vw;
+  button{
+    height: 4vh;
+    font-size: 1em;
+    padding: 3%;
+    border-radius: 2px;
+
+  }
 
 }
 
@@ -224,5 +218,16 @@ button, #result{
 }
 
 
+@media only screen and (max-device-width: 600px)  {
+  .site {
+    display: grid;
+    row-gap: 10px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 2fr 2fr;
+    grid-template-areas: "main"
+                      "scientific"
+                      "history";
+  }
+}
 
 
