@@ -1,9 +1,16 @@
 
+
+const versionInfo={
+    "Developed by": "Vicky",
+    "Version": "0.0",
+    "Description": "This is a simple calculator",
+}
 let params=null;
 function loadApp() {
     document.getElementById("pagebody").className="dark";
     document.getElementById('scientific').style.visibility="hidden";
     document.getElementById('history').style.visibility="visible";
+    document.getElementById('info').style.visibility ="none";
     if (window.location.search){
         params = new URLSearchParams (window.location.search)
         let color= params.get('backgroundcolors');
@@ -18,9 +25,9 @@ function loadApp() {
 }
 
 
-function settingsFunc(){
-    alert ("Developed by: Vicky \nVersion: 0.0 \nDescription: This is a simple calculator");
-}
+
+
+
 
 
 
@@ -70,8 +77,19 @@ function sciMode(){
     }
 }
 
+function displayInfo () {
+    let displayText =''
+    document.getElementById('myPopup').classList.toggle("show");
+     Object.keys(versionInfo).forEach(key=>{
+        displayText = displayText + key + ":"+ versionInfo[key] +"\n";
+    })
+    document.getElementById('myPopup').innerHTML =displayText;
+
+}
+
 
 document.getElementById('lightbulb').addEventListener("click", lightScreen);
 document.getElementById('sciMode').addEventListener("click", sciMode);
+document.getElementById('info').addEventListener("click", displayInfo);
 document.addEventListener('DOMContentLoaded', loadApp);
 

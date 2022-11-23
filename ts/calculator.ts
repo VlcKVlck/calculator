@@ -1,7 +1,10 @@
 
+
+
 //Input handeling (parsing, clearing, displaying) and simple arithmetics
 /**-----------------------------------------------------------------------------**/
-let scientific;
+let scientific = false;
+let remote=false;
 let numInStr = ''; //holds the string value of the input until converts to num
 let res =''; //The output string displayed to user
 let historyRes = ''; //Displays history
@@ -33,7 +36,7 @@ function checkStatus (c){
 //Handles key presses => operators and operands
 function inputIntoEquation(c){
     let temp = numInStr + c;
-    // console.log("yo")
+    console.log("yo")
     if (isValidNumber(temp)) {
         if (eqPressed){
             clearCalc();
@@ -63,6 +66,9 @@ function getCalcOnOperator(){
 }
 
 function onOperator (c){
+    if (!res){
+        return
+    }
     if (eqPressed){
         eqPressed=false;
     }
@@ -100,6 +106,10 @@ function sciCalcEval() {
         let inputStr = res;
         if (curOperator == '^' || prevOperator == '^') {
             inputStr = inputStr.replace('^', '**')
+        }
+        if (remote==true){
+            remoteMode(inputStr);
+            return;
         }
         prevNum = eval(inputStr)
         if (curOperator == '√') {
@@ -326,9 +336,10 @@ function rootFunc () {
             alert (Error)
         }
         curNum=Math.pow(prevNum, 1/2);
-        res = res.replace(prevNum, curNum);
         numInStr='';
-        setRes.innerHTML = res
+        res ='√' + prevNum;
+        total=curNum;
+        displayCalc();
     }
 
 }
@@ -341,13 +352,58 @@ function  setPie(){
     }
 }
 
-// function calcMod(){
-//
-// }
-
-function loadCalc() {
-    scientific = false;
+function calcFactorial(num){
+    let total = 1;
+    for (let j=1; j<(num+1); j++){
+        total = total*j;
+    }
+    return total;
 }
+
+function factorialFunc (){
+    if (numInStr){
+        if (prevNum){
+            curNum=calcFactorial (Number(numInStr))
+            res = res.replace(numInStr, curNum);
+            numInStr='';
+            setRes.innerHTML = res
+        }
+        else{
+            prevNum=calcFactorial (Number(numInStr));
+            res=numInStr +"!";
+            numInStr='';
+            setRes.innerHTML = res
+            total=prevNum;
+            displayCalc();
+        }
+    }
+    else if (prevNum){
+        curNum=calcFactorial (prevNum)
+        res = res.replace(prevNum, curNum);
+        numInStr='';
+        setRes.innerHTML = res
+    }
+}
+
+
+ function remoteMode(eq){
+    let a = encodeURIComponent(eq);
+    async function remoteCalc(eq){
+
+
+   console.log(a, eq)
+    // try {
+    //     const response = await fetch(RANDOM_URL);
+    //     const data = await response.json();
+    //     document.getElementById('output').innerHTML = data.query.random[0].title;
+    // } catch (eeee) {
+    //     console.log('So baasa, nothing happen', eeee);
+    // }
+}
+}
+
+
+
 
 const numBtns = document.querySelectorAll('.numbutton')
 numBtns.forEach(function (btn) {
@@ -362,13 +418,13 @@ opsBtns.forEach(function (btn) {
 document.getElementById('plusminus').addEventListener('click', plusMinusFunc);
 document.getElementById('equal').addEventListener('click', eq);
 
-document.addEventListener('DOMContentLoaded', loadCalc);
 document.getElementById('square').addEventListener('click', timesSquare)
 
 document.getElementById('root').addEventListener('click', rootFunc)
 
 document.getElementById('pie').addEventListener('click', setPie)
-
+document.getElementById('factorial').addEventListener('click', factorialFunc)
+document.getElementById('cloud').addEventListener('click', remoteMode)
 
 
 

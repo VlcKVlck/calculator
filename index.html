@@ -9,8 +9,12 @@
 </head>
 
 
-</script>
+
 <body class="dark" id="pagebody">
+   <div class="popup" id="popup">
+        <span class="popuptext" id="myPopup">fdgdfgdfgdfgdfg</span>
+
+    </div>
 <div class="site" id="site">
     <div class=“history” id="history">
         <div class="historytitle">
@@ -21,7 +25,7 @@
 
     <main>
         <div class="scibuttons">
-            <button type="button" class="opsbutton" id="info" onclick="settingsFunc()"> <img src="info.png"> </button>
+            <button type="button" class="opsbutton" id="info"> <img src="info.png"> </button>
             <button type="button" class="opsbutton" id="lightbulb"> <img src="lightbulb.png"> </button>
             <button type="button" class="opsbutton" id="historybtn" onclick="hideHistory()" > <img src="time.png"> </button>
             <button type="button" class="opsbutton" id="sciMode"> <img src="root.png"></button>
@@ -64,9 +68,9 @@
 
     <div class="scientific" id="scientific" >
         <div class="scientifictitle">
-            <h1><img src="root.png" id="rootimg"> Scientific </h1>
+            <h1> <img src="root.png" id="rootimg"> Scientific </h1>
         </div>
-        <div class="scientificbody" id="scientificbody"> </div>
+        <div class="scientificbody" id="scientificbody">
             <div class="sciOperators">
                 <button type="button" class="squarebuttons" id="square" > X<sup>2</sup> </button>
                 <button type="button" class="squarebuttons" id="root"  > <sup>2</sup>√X </button>
@@ -74,9 +78,13 @@
                 <button type="button" class="calcbutton" id="yRootX" value="√"> <sup>y</sup>√X</button>
                 <button type="button" class="calcbutton" id="mod" value="%"> mod </button>
                 <button type="button" class="squarebuttons" id="pie" > 𝝅 </button>
+                <button type="button" class="squarebuttons" id="factorial" > ! </button>
 
             </div>
+        </div>
     </div>
+
+
 
 
 
