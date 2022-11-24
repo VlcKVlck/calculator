@@ -14,6 +14,7 @@ let curOperator =null;
 let prevOperator =null;
 let total = 0;
 let eqPressed = false;
+const mathJsURL = "http://api.mathjs.org/v4/?expr=";
 const isValidNumber = (num) => /^(\d*)(\.\d*)?$/g.test(num);
 let setRes =document.getElementById("result");
 
@@ -117,7 +118,6 @@ function sciCalcEval() {
             // prevNum = eval (res.replace())
         }
         if (prevOperator == '√'){
-            console.log("vikvik")
             prevNum = Math.pow(prevNum, (1 / Number(numInStr)));
         }
         numInStr = ''
@@ -152,14 +152,11 @@ function sciCalc (c) {
 // arithmeticCalc function receives user input and manipulates it in non scientific mode
 //runs calculations once we have two operands. No operations order followed.
 function arithmeticCalc(c) {
-
-    console.log("numinstr:", numInStr, "prevnum:", prevNum, "curNum", curNum, "preopearto", prevOperator, "curoperator", curOperator)
     inputIntoEquation(c);
     if (isOperator(c)) {
         onOperator(c);
         getCalcOnOperator();
     }
-    console.log("numinstr:", numInStr, "prevnum:", prevNum, "curNum", curNum, "preopearto", prevOperator, "curoperator", curOperator)
 }
 
 
@@ -305,7 +302,6 @@ function timesSquare(){
         numInStr='';
         setRes.innerHTML = res
     }
-
 }
 
 function rootFunc () {
@@ -386,21 +382,30 @@ function factorialFunc (){
 }
 
 
- function remoteMode(eq){
-    let a = encodeURIComponent(eq);
-    async function remoteCalc(eq){
+ function remoteMode(x) {
+     console.log("entered")
+
+     let URL = mathJsURL + encodeURIComponent(x);
+     remoteCalc(URL)
+ }
+
+ async function remoteCalc(URL) {
+     try {
+         console.log("URL:", URL)
+         const response = await fetch(URL);
+         console.log("response:", response)
+         const data = await response.json();
+         console.log("data:", data)
+         // res=data;
+         total=data;
+         document.getElementById('result').innerHTML = res;
+         displayCalc();
+     } catch (error) {
+         console.log('Error occurred', error);
+     }
+ }
 
 
-   console.log(a, eq)
-    // try {
-    //     const response = await fetch(RANDOM_URL);
-    //     const data = await response.json();
-    //     document.getElementById('output').innerHTML = data.query.random[0].title;
-    // } catch (eeee) {
-    //     console.log('So baasa, nothing happen', eeee);
-    // }
-}
-}
 
 
 
@@ -424,7 +429,6 @@ document.getElementById('root').addEventListener('click', rootFunc)
 
 document.getElementById('pie').addEventListener('click', setPie)
 document.getElementById('factorial').addEventListener('click', factorialFunc)
-document.getElementById('cloud').addEventListener('click', remoteMode)
 
 
 

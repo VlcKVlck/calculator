@@ -47,6 +47,7 @@ var curOperator = null;
 var prevOperator = null;
 var total = 0;
 var eqPressed = false;
+var mathJsURL = "http://api.mathjs.org/v4/?expr=";
 var isValidNumber = function (num) { return /^(\d*)(\.\d*)?$/g.test(num); };
 var setRes = document.getElementById("result");
 function isOperator(o) {
@@ -148,7 +149,6 @@ function sciCalcEval() {
         // prevNum = eval (res.replace())
     }
     if (prevOperator == '√') {
-        console.log("vikvik");
         prevNum = Math.pow(prevNum, (1 / Number(numInStr)));
     }
     numInStr = '';
@@ -181,13 +181,11 @@ function sciCalc(c) {
 // arithmeticCalc function receives user input and manipulates it in non scientific mode
 //runs calculations once we have two operands. No operations order followed.
 function arithmeticCalc(c) {
-    console.log("numinstr:", numInStr, "prevnum:", prevNum, "curNum", curNum, "preopearto", prevOperator, "curoperator", curOperator);
     inputIntoEquation(c);
     if (isOperator(c)) {
         onOperator(c);
         getCalcOnOperator();
     }
-    console.log("numinstr:", numInStr, "prevnum:", prevNum, "curNum", curNum, "preopearto", prevOperator, "curoperator", curOperator);
 }
 //CalcValues performs the basic arithmetic calculations
 function calcValuesArithmetic() {
@@ -398,16 +396,40 @@ function factorialFunc() {
         setRes.innerHTML = res;
     }
 }
-function remoteMode(eq) {
-    var a = encodeURIComponent(eq);
-    function remoteCalc(eq) {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                console.log(a, eq);
-                return [2 /*return*/];
-            });
+function remoteMode(x) {
+    console.log("entered");
+    var URL = mathJsURL + encodeURIComponent(x);
+    remoteCalc(URL);
+}
+function remoteCalc(URL) {
+    return __awaiter(this, void 0, void 0, function () {
+        var response, data, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 3, , 4]);
+                    console.log("URL:", URL);
+                    return [4 /*yield*/, fetch(URL)];
+                case 1:
+                    response = _a.sent();
+                    console.log("response:", response);
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    data = _a.sent();
+                    console.log("data:", data);
+                    // res=data;
+                    total = data;
+                    document.getElementById('result').innerHTML = res;
+                    displayCalc();
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    console.log('Error occurred', error_1);
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
+            }
         });
-    }
+    });
 }
 var numBtns = document.querySelectorAll('.numbutton');
 numBtns.forEach(function (btn) {
@@ -423,5 +445,4 @@ document.getElementById('square').addEventListener('click', timesSquare);
 document.getElementById('root').addEventListener('click', rootFunc);
 document.getElementById('pie').addEventListener('click', setPie);
 document.getElementById('factorial').addEventListener('click', factorialFunc);
-document.getElementById('cloud').addEventListener('click', remoteMode);
 /**------------------------------------------------------------------------------------**/

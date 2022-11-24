@@ -7,8 +7,8 @@ var params = null;
 function loadApp() {
     document.getElementById("pagebody").className = "dark";
     document.getElementById('scientific').style.visibility = "hidden";
-    document.getElementById('history').style.visibility = "visible";
     document.getElementById('info').style.visibility = "none";
+    document.getElementById("historybtn").click();
     if (window.location.search) {
         params = new URLSearchParams(window.location.search);
         var color = params.get('backgroundcolors');
@@ -27,11 +27,11 @@ function hideHistory() {
     var btn = document.getElementById("historybtn");
     if (elem.style.visibility == 'visible') {
         elem.style.visibility = 'hidden';
-        btn.style.border = "5px solid black";
+        btn.style.border = "inherit";
     }
     else {
         elem.style.visibility = 'visible';
-        btn.style.border = "inherit";
+        btn.style.border = "5px solid black";
     }
 }
 function lightScreen() {
@@ -62,6 +62,18 @@ function sciMode() {
         clearRes();
     }
 }
+function remoteModeStart() {
+    var btn = document.getElementById("cloud");
+    if (remote == false) {
+        btn.style.border = "5px solid black";
+        remote = true;
+        sciMode();
+    }
+    else {
+        btn.style.border = "inherit";
+        remote = false;
+    }
+}
 function displayInfo() {
     var displayText = '';
     document.getElementById('myPopup').classList.toggle("show");
@@ -73,4 +85,5 @@ function displayInfo() {
 document.getElementById('lightbulb').addEventListener("click", lightScreen);
 document.getElementById('sciMode').addEventListener("click", sciMode);
 document.getElementById('info').addEventListener("click", displayInfo);
+document.getElementById('cloud').addEventListener('click', remoteModeStart);
 document.addEventListener('DOMContentLoaded', loadApp);
