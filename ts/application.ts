@@ -75,11 +75,12 @@ function remoteModeStart(){
     if (remote==false){
         btn.style.border="5px solid black";
         remote=true;
-        sciMode();
+        scientific=true;
     }
     else{
         btn.style.border="inherit";
         remote=false;
+        scientific=false;
     }
 }
 

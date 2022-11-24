@@ -381,58 +381,73 @@ function factorialFunc (){
     }
 }
 
-
  function remoteMode(x) {
      console.log("entered")
-
      let URL = mathJsURL + encodeURIComponent(x);
-     remoteCalc(URL)
+     setTimeout(() => {
+         try {
+             remoteCalc(URL);
+         } catch {
+             alert("Error. Please try the local calculator");
+         }
+     }, 2000)
  }
 
- async function remoteCalc(URL) {
-     try {
-         console.log("URL:", URL)
-         const response = await fetch(URL);
-         console.log("response:", response)
-         const data = await response.json();
-         console.log("data:", data)
-         // res=data;
-         total=data;
-         document.getElementById('result').innerHTML = res;
-         displayCalc();
-     } catch (error) {
-         console.log('Error occurred', error);
-     }
- }
+ // >>>>>>>>>>>FETCH WITH TIMEOUT<<<<<<<<<
+//ABORT CONTROLLER
+
+function remoteCalc (URL){
+    fetch(URL)
+        .then(function (response) {
+            console.log(response);
+            return response.json();
+        })
+        .then(function (data) {
+            total=data;
+            document.getElementById('result').innerHTML = String(total);
+            displayCalc();
+        })
+        .catch(function () {
+            alert("Error. Please try the local calculator");
+        })
+}
+
+function base2Func(){
+    fetch("https://networkcalc.com/api/binary/"+ numInStr+ "?from=10")
+    .then(function (response) {
+        console.log(response);
+        return response.json();
+    })
+        .then(function (data) {
+            console.log(data)
+            total=Number(data.converted);
+            document.getElementById('result').innerHTML = String(total);
+            displayCalc();
+        })
+        .catch(function () {
+            alert("Error. Please try the local calculator");
+        })
+
+}
 
 
 
-
-
-
-const numBtns = document.querySelectorAll('.numbutton')
+ const numBtns = document.querySelectorAll('.numbutton')
 numBtns.forEach(function (btn) {
     btn.addEventListener('click', () => checkStatus(btn.getAttribute('id')))
 });
-
 const opsBtns = document.querySelectorAll('.calcbutton')
 opsBtns.forEach(function (btn) {
     btn.addEventListener('click', () => checkStatus(btn.getAttribute('value')))
 });
-
 document.getElementById('plusminus').addEventListener('click', plusMinusFunc);
 document.getElementById('equal').addEventListener('click', eq);
-
 document.getElementById('square').addEventListener('click', timesSquare)
-
 document.getElementById('root').addEventListener('click', rootFunc)
-
 document.getElementById('pie').addEventListener('click', setPie)
 document.getElementById('factorial').addEventListener('click', factorialFunc)
+document.getElementById('base2').addEventListener('click', base2Func)
 
-
-
-    /**------------------------------------------------------------------------------------**/
 
 
 
