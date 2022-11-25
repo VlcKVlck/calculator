@@ -376,7 +376,9 @@ function factorialFunc() {
 //Sends equation to math.js. Alerts user if no response within 2 secs. Return result of equation.
 function remoteMode(x) {
     console.log("entered");
-    x = x.replace('√', '^(1/') + ')';
+    if (x.includes('√')) {
+        x = x.replace('√', '^(1/') + ')';
+    }
     x = x.replace('**', '^');
     console.log(x);
     var URL = mathJsURL + encodeURIComponent(x);
