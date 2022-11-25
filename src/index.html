@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../img/favicon.png" rel="icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+
+
+<body class="dark" id="pagebody">
+   <div class="popup" id="popup">
+        <span class="popuptext" id="myPopup"></span>
+
+    </div>
+<div class="site" id="site">
+    <div class=“history” id="history">
+        <div class="historytitle">
+            <h1><img src="../img/time.png" id="clockimg">  Operations Log</h1>
+        </div>
+        <div class="historybody" id="historybody"> </div>
+    </div>
+
+    <main>
+        <div class="scibuttons">
+            <button type="button" class="opsbutton" id="info"> <img src="../img/info.png"> </button>
+            <button type="button" class="opsbutton" id="lightbulb"> <img src="../img/lightbulb.png"> </button>
+            <button type="button" class="opsbutton" id="historybtn" onclick="hideHistory()" > <img src="../img/time.png"> </button>
+            <button type="button" class="opsbutton" id="sciMode"> <img src="../img/root.png"></button>
+            <button type="button" class="opsbutton" id="cloud"> <img src="../img/cloud.png"></button>
+            <button type="button" class="opsbutton" style="pointer-events: none"> </button>
+            <button type="button" class="opsbutton" style="pointer-events: none"> </button>
+        </div>
+
+        <div class="display">
+            <button type="button" class="widebutton" id="title" style="pointer-events: none">My Calculator</button>
+            <div id="result"> </div>
+           <button type="button" class="widebutton" onclick="clearRes()"> C </button>
+        </div>
+
+        <div class="numbers">
+            <button type="button" class="numbutton" id="7" value="7" > 7 </button>
+            <button type="button" class="numbutton" id="8" value="8"> 8 </button>
+            <button type="button" class="numbutton" id="9" value="9"> 9 </button>
+            <button type="button" class="numbutton" id="4" value="4"> 4 </button>
+            <button type="button" class="numbutton" id="5" value="5"> 5 </button>
+            <button type="button" class="numbutton" id="6" value="6"> 6 </button>
+            <button type="button" class="numbutton" id="1" value="1"> 1 </button>
+            <button type="button" class="numbutton" id="2"value="2"> 2 </button>
+            <button type="button" class="numbutton" id="3" value="3"> 3 </button>
+            <button type="button" class="calcbutton" id="plusminus"onclick="plusMinus()"> +/- </button>
+            <button type="button" class="numbutton" id="0" value="0"> 0 </button>
+            <button type="button" class="numbutton" id="." value="."> . </button>
+        </div>
+        <div class="signs">
+            <button type="button" class="opsbutton" id="settings"><a href="config.html">  <img src="../img/settings.png">  </a></button>
+            <button type="button" class="opsbutton" id="back" onclick="deleteLast()"> <img src="../img/back.png"> </button>
+            <button type="button" class="calcbutton" id="div" value="/" > / </button>
+            <button type="button" class="calcbutton" id="mult" value="*" > X </button>
+            <button type="button" class="calcbutton" id="min" value="-" > - </button>
+            <button type="button" class="calcbutton" id="plus" value="+"> + </button>
+            <button type="button" class="calcbutton" id="equal"> = </button>
+        </div>
+
+    </main>
+
+    <div class="scientific" id="scientific" >
+        <div class="scientifictitle">
+            <h1> <img src="../img/root.png" id="rootimg"> Scientific </h1>
+        </div>
+        <br>
+        <div class="scientificbody" id="scientificbody">
+            <div class="sciOperators">
+                <button type="button" class="squarebuttons" id="square" > X<sup>2</sup> </button>
+                <button type="button" class="squarebuttons" id="root"  > <sup>2</sup>√X </button>
+                <button type="button" class="calcbutton" id="xToY" value="^" > X<sup>y</sup> </button>
+                <button type="button" class="calcbutton" id="yRootX" value="√"> <sup>y</sup>√X</button>
+                <button type="button" class="calcbutton" id="mod" value="%"> mod </button>
+                <button type="button" class="squarebuttons" id="pie" > 𝝅 </button>
+                <button type="button" class="squarebuttons" id="factorial" > ! </button>
+                <button type="button" class="squarebuttons" id="base2" > Base<sub>2</sub> </button>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+<script src="ts/application.js"></script>
+<script src="ts/calculator.js"></script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+
+@mixin themes ($theme-name,$background,$numsbuttons,$otherbuttons,$secondarycolor) {
+  .#{$theme-name} {
+
+    main, .scientific, #history{
+    background-color: $background;
+      border: 2px solid black;
+
+  }
+  .opsbutton, .calcbutton, .squarebuttons, .mainconfig button {
+    background-color: $otherbuttons;
+  }
+  .numbutton{
+    background-color: $numsbuttons;
+  }
+  .widebutton, .result{
+    background-color:$otherbuttons;
+    }
+  }
+}
+
+    @include themes("bright", #FDFDBD, #C8FFD4, #B8E8FC, #B1AFFF);
+    @include themes("dark", #b7f1d1, #4bf570, #22ace7, #ffc100);
+
+
+$mainFont: calibri, serif;
+$fontColor: black;
+$fontSizeCalc: 4vh;
+$fontSizePanel: 2vh;
+$fontSizePar: 2.5vh;
+
+  button:hover, input:hover, select:hover{
+    cursor: pointer;
+  }
+body {
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ }
+.site {
+  display: grid;
+  grid-template-columns: 2fr 5fr 2fr;
+  grid-template-areas: "history main scientific";
+  justify-content: center;
+  padding-top: 10%;
+  padding-bottom: 10%;
+  column-gap: 2px;
+}
+
+.history {
+  grid-area: history;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(7, 1fr);
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.historytitle {
+  grid-row: 1/2;
+  grid-column: 1/2;
+  margin: 0;
+  padding-right: 2px;
+  padding-left: 5px;
+  font-family: "calibri", serif;
+  box-sizing: border-box;
+  font-size: $fontSizePanel;
+}
+.historybody {
+  grid-row: 2/7;
+  grid-column: 1/2;
+  font-size: $fontSizePar;
+  font-weight: bolder;
+  text-align: center;
+  box-sizing: border-box;
+  max-height: 60vh;
+  overflow-y: scroll;
+}
+#clockimg, #rootimg {
+    height: 0.8em;
+    display: inline;
+  }
+
+
+main {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 2fr 3fr 3fr 3fr 2fr;
+  grid-template-rows: repeat(7, 1fr);
+  margin:0;
+  padding: 0;
+
+  .scibuttons{
+    grid-column: 1/2;
+    grid-row: 1/9;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .display{
+    grid-column: 2/5;
+    grid-row: 1/4;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .numbers{
+    grid-column: 2/5;
+    grid-row: 4/8;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .signs{
+    grid-column: 5/6;
+    grid-row: 1/9;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #title {
+    font-family: calbiri, serif;
+    font-size: $fontSizeCalc;
+  }
+  .numbutton:active {
+    color:white;
+    border: none;
+  }
+  button:hover{
+    border: 1px white solid;
+  }
+  .opsbutton:active, .widebutton:active, .calcbutton:active, .squarebuttons:active, #cloud:active {
+    transform: translateY(4px);
+    background-color: inherit;
+    border: none;
+  }
+}
+
+button, #result{
+  img {
+    height: 2.5vw;
+  }
+  box-sizing: border-box;
+  color: $fontColor;
+  font-weight: bolder;
+  height: 10vh;
+  text-align: center;
+  margin: 0.2vh;
+  border: none;
+  font-size: $fontSizeCalc;
+  text-overflow-ellipsis: set;
+}
+
+.squarebuttons, .sciOperators button{
+  width: 10vh;
+  font-size: 2vmax;
+  box-sizing: border-box;
+  overflow: clip;
+  column-gap: 0;
+}
+
+.scientific{
+  grid-area: scientific;
+  display: grid;
+  font-family: "calibri", sarif;
+  font-size: $fontSizePanel;
+
+  .scientifictitle{
+    padding-left: 5px;
+  }
+  .sciOperators{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.invis{
+  visibility: hidden;
+  width: 10vh;
+}
+
+
+//config styling
+
+.configsite{
+  background-color: aliceblue;
+  margin: 0;
+  height: 100vh
+}
+
+.mainconfig{
+  display: flex;
+  flex-direction: column;
+  font-family: "calibri", serif;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  button{
+    height: 4vh;
+    font-size: $fontSizePanel;
+    padding: 3%;
+    border-radius: 2px;
+  }
+}
+
+//helpstyling
+
+.helpsite{
+  background-color: aliceblue;
+  margin: 0;
+  height: 100vh
+}
+
+.mainhelp{
+  //text-align: center;
+  line-height: 3vh;
+  font-family: "calbiri", serif;
+  padding-left: 3vw;
+  margin: 0;
+  height: 100vh
+}
+
+
+//popup css//
+.popup {
+  position: absolute;
+  top: 10vh;
+  display: inline-block;
+  width: 100vw;
+  font-size: 2em;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
+}
+
+.popup .popuptext {
+  font-family: "calibri", serif;
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px ;
+  position: absolute;
+  z-index: 999;
+  //top: 0;
+  left: 50%;
+  margin-left: -80px;
+
+}
+
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s
+}
+
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+@media only screen and (max-device-width: 800px)  {
+  .site {
+    display: grid;
+    row-gap: 10px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 2fr 2fr;
+    grid-template-areas: "main"
+                      "scientific"
+                      "history";
+  }
+  .sciOperators{
+    width: auto;
+  }
+}
+
+

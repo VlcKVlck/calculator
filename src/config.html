@@ -5,8 +5,9 @@
     <title>Site Configuration</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
-    <link href="favicon.png" rel="icon">
+    <link href="../img/favicon.png" rel="icon">
     <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 <div class="configsite">
@@ -17,37 +18,29 @@
         </div>
 
         <div class="selectionform">
-            <form action="index.html" method="get">
+            <form action="index.html" method="get" id="form" >
                 <label for="backgroundcolors"> Website background color: </label><br>
-                <select name="backgroundcolors" id="backgroundcolors">
-                  <option value="white">White</option>
-                  <option value="red">Red</option>
-                  <option value="green">Green</option>
-                  <option value="blue">Blue</option>
-                  <option value="pink">Pink</option>
-
-                </select>
+                <input type="color" name="backgroundcolors" id="backgroundcolors" value="#FFFFFF">
                 <br><br>
                 <label for="fontfamilyselector">Website font:</label><br>
                 <select name="fontfamilyselector" id="fontfamilyselector">
-                  <option value="ariel">Arial</option>
-                  <option value="Calibri">Calibri</option>
-                  <option value="NewTimes">Times New Roman</option>
-                  <option value="verdana">Verdana</option>
-                  <option value="tahoma">Tahoma</option>
+                  <option value='"Arial", Helvetica, sans-serif'>Arial</option>
+                  <option value='"calbiri", serif'>Calibri</option>
+                  <option value='"Times New Roman", Times, serif'>Times New Roman</option>
+                  <option value='"Verdana", Geneva, sans-serif'>Verdana</option>
+                  <option value='"Tahoma", Verdana, Segoe, sans-serif'>Tahoma</option>
 
                 </select>
                 <br><br>
 
                 <p> Theme: </p>
-                <input type="radio" value="dark" name="theme" id="darktheme">
+                <input type="radio" value="dark" name="theme" id="darktheme" checked>
                 <label for="darktheme">Dark Theme</label>
                 <br>
                 <input type="radio" value="bright" name="theme" id="brighttheme">
                 <label for="brighttheme">Light Theme</label>
                 <br><br>
-                <button type="submit"> Change style </button>
-
+                <button type="submit" > Change style </button>
 
             </form>
 
@@ -57,6 +50,9 @@
     </div>
 
 </div>
+<script src="tspplication.js"></script>
+<script>
 
+</script>
 </body>
 </html>
