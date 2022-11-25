@@ -218,9 +218,10 @@ button img, #result img {
   position: absolute;
   top: 10vh;
   display: inline-block;
-  cursor: pointer;
   width: 100vw;
-  font-size: 2vw;
+  font-size: 2em;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
 }
 
 .popup .popuptext {
@@ -269,7 +270,7 @@ button img, #result img {
     opacity: 1;
   }
 }
-@media only screen and (max-device-width: 600px) {
+@media only screen and (max-device-width: 800px) {
   .site {
     display: grid;
     row-gap: 10px;

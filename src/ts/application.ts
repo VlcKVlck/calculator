@@ -1,17 +1,17 @@
 
-
 const versionInfo={
     "Developed by": "Vicky",
     "Version": "0.0",
     "Description": "This is a simple calculator",
 }
+
 let params=null;
+//Handles the presentation of the screen on load and resets status of modes
 function loadApp() {
     document.getElementById("pagebody").className="dark";
     document.getElementById('scientific').style.visibility="hidden";
     document.getElementById('info').style.visibility ="none";
     document.getElementById("historybtn").click();
-
     if (window.location.search){
         params = new URLSearchParams (window.location.search)
         let color= params.get('backgroundcolors');
@@ -40,7 +40,7 @@ function hideHistory(){
 
     }
 }
-
+//Turn on/off the screen light
 function lightScreen (){
     const elem = document.getElementById('result')
     const btn = document.getElementById('lightbulb')
@@ -51,8 +51,8 @@ function lightScreen (){
         elem.style.backgroundColor='yellow';
         btn.style.border = '5px solid black';
     }
-
 }
+//Toggle sci mode
 function sciMode(){
     const elem =document.getElementById('scientific');
     const btn = document.getElementById("sciMode");
@@ -69,7 +69,7 @@ function sciMode(){
         clearRes ();
     }
 }
-
+//Toggle remote mode
 function remoteModeStart(){
         const btn = document.getElementById("cloud");
     if (remote==false){
@@ -83,7 +83,7 @@ function remoteModeStart(){
         scientific=false;
     }
 }
-
+//App info popup
 function displayInfo () {
     let displayText =''
     document.getElementById('myPopup').classList.toggle("show");
@@ -91,9 +91,7 @@ function displayInfo () {
         displayText = displayText + key + ":"+ versionInfo[key] +"\n";
     })
     document.getElementById('myPopup').innerHTML =displayText;
-
 }
-
 
 document.getElementById('lightbulb').addEventListener("click", lightScreen);
 document.getElementById('sciMode').addEventListener("click", sciMode);

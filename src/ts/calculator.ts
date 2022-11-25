@@ -1,8 +1,5 @@
 
 
-
-//Input handeling (parsing, clearing, displaying) and simple arithmetics
-/**-----------------------------------------------------------------------------**/
 let scientific = false;
 let remote=false;
 let numInStr = ''; //holds the string value of the input until converts to num
@@ -10,20 +7,16 @@ let res =''; //The output string displayed to user
 let historyRes = ''; //Displays history
 let prevNum = null;
 let curNum = null;
-let curOperator =null;
-let prevOperator =null;
+let curOperator=null;
+let prevOperator=null;
 let total = 0;
 let eqPressed = false;
 const mathJsURL = "http://api.mathjs.org/v4/?expr=";
 const isValidNumber = (num) => /^(\d*)(\.\d*)?$/g.test(num);
 let setRes =document.getElementById("result");
 
-function isOperator(o) {
-    if (o == '/' || o == '*' || o == '-' || o == '+' || o=='%' || o =='^' || o=='√') {
-        return true;
-    }
-}
-//CheckStatus redirects incoming key presses based on status: scientific/arithmetics
+//CheckStatus redirects incoming key presses based on status: scientific/arithmetics. Remote mode uses
+//the logic of the scientific eval function
 function checkStatus (c){
     console.log(scientific, c)
     if (scientific == true){
@@ -33,8 +26,13 @@ function checkStatus (c){
         arithmeticCalc(c);
     }
 }
-
-//Handles key presses => operators and operands
+//Helper for the calculations functions. Checks if an operator is passed.
+function isOperator(o) {
+    if (o == '/' || o == '*' || o == '-' || o == '+' || o=='%' || o =='^' || o=='√') {
+        return true;
+    }
+}
+////Helper for the calculations functions. Handles key presses => operators and operands
 function inputIntoEquation(c){
     let temp = numInStr + c;
     console.log("yo")
@@ -55,7 +53,7 @@ function inputIntoEquation(c){
     }
 }
 
-//calls for a calculation once there are two operands and an operator
+//Helper for the calculations functions. Calls for a calculation once there are two operands and an operator
 function getCalcOnOperator(){
     if (prevNum && curNum && curOperator) {
         calcValuesArithmetic();
@@ -65,7 +63,7 @@ function getCalcOnOperator(){
         curOperator = null;
     }
 }
-
+//Helper for the calculations functions. Handles status upon passing an operator.
 function onOperator (c){
     if (!res){
         return
@@ -73,7 +71,7 @@ function onOperator (c){
     if (eqPressed){
         eqPressed=false;
     }
-        //assign the first number
+    //assign the first number
     if (!prevNum) {
         prevNum = Number(numInStr);
         numInStr = '';
@@ -112,14 +110,20 @@ function sciCalcEval() {
             remoteMode(inputStr);
             return;
         }
-        prevNum = eval(inputStr)
         if (curOperator == '√') {
-            curNum = Math.pow(curNum, (1 / prevNum));
-            // prevNum = eval (res.replace())
+            let temp=curNum
+            curNum = Math.pow(curNum, (1 / Number(numInStr)));
+            prevNum = eval (res.replace(String(temp)+"√"+numInStr, String(curNum)))
+
         }
-        if (prevOperator == '√'){
+        else if (prevOperator == '√'){
             prevNum = Math.pow(prevNum, (1 / Number(numInStr)));
+            // inputStr = String(prevNum);
         }
+        else {
+            prevNum = eval(inputStr)
+        }
+
         numInStr = ''
         console.log("vicky", curNum);
         curNum=null;
@@ -147,8 +151,6 @@ function sciCalc (c) {
         getCalcOnOperator();
     }
 }
-
-
 // arithmeticCalc function receives user input and manipulates it in non scientific mode
 //runs calculations once we have two operands. No operations order followed.
 function arithmeticCalc(c) {
@@ -158,8 +160,6 @@ function arithmeticCalc(c) {
         getCalcOnOperator();
     }
 }
-
-
 //CalcValues performs the basic arithmetic calculations
 function calcValuesArithmetic() {
     if (numInStr && prevNum && !curNum) {//handles the final number conversion from str to num
@@ -188,18 +188,20 @@ function calcValuesArithmetic() {
     if (prevOperator =='^'){
         total = prevNum**curNum;
     }
-    if (prevOperator == 'v'){
+    if (prevOperator == '√'){
         total = Math.pow(curNum, (1 / prevNum))
     }
-    //
-    if ((numInStr && !prevNum) || (prevNum && !curNum)) { //handles multiple presses on "="
+    if (prevNum && !curNum){ //handles multiple presses on "="
         total = prevNum;
+    }
+    if (numInStr && !prevNum){//handles pressing = after just inputting a number
+        total=Number(numInStr);
     }
     prevNum = total;
     curNum = null;
     displayCalc();
 }
-
+//Handles the display in the history panel.
 function displayCalc (){
     historyRes = historyRes + res + "<br>";
     document.getElementById("historybody").innerHTML = historyRes;
@@ -208,7 +210,6 @@ function displayCalc (){
     setRes.innerHTML = res;
     document.getElementById("historybody").innerHTML = historyRes;
 }
-
 //Eq is triggered upon hitting the "=" sign.
 function eq() {
     eqPressed=true;
@@ -231,7 +232,7 @@ function clearRes() {
     clearCalc();
 }
 
-//Clears saved data after a calcualtion is complete
+//Clears saved data after a calculation is complete
 function clearCalc() {
     numInStr = '';
     curNum = null;
@@ -241,7 +242,7 @@ function clearCalc() {
     console.clear();
 }
 
-//delete last deletes the last input and allows to continue calculting from that point (you
+//deleteLast deletes the last input and allows to continue calculating from that point (you
 //can add an operator or another digit.
 function deleteLast() {
     if (numInStr) {
@@ -256,12 +257,11 @@ function deleteLast() {
     }
     else if (prevNum){
         prevNum=parseInt(String(prevNum/10));
-        res=prevNum;
+        res=String(prevNum);
         numInStr=String(prevNum);
         setRes.innerHTML = res;
     }
 }
-
 //Handles the +/- sign.
 function plusMinusFunc(){
     if (numInStr) {
@@ -274,16 +274,17 @@ function plusMinusFunc(){
     else if (prevNum){
         let newNum = String((prevNum) * (-1));
         res = res.replace(String(prevNum), newNum)
-        prevNum=newNum;
+        prevNum=Number(newNum);
         setRes.innerHTML = res;
     }
 }
 
+//Will on press raise to the power of 2 the last operand entered
 function timesSquare(){
     if (numInStr){
         if (prevNum){
             curNum=Number(numInStr)*Number(numInStr)
-            res = res.replace(numInStr, curNum);
+            res = res.replace(numInStr, String(curNum));
             numInStr='';
             setRes.innerHTML = res
         }
@@ -298,12 +299,12 @@ function timesSquare(){
     }
     else if (prevNum){
         curNum=prevNum*prevNum
-        res = res.replace(prevNum, curNum);
+        res = res.replace(String(prevNum), String(curNum));
         numInStr='';
         setRes.innerHTML = res
     }
 }
-
+//Will on press calc the square root of the last operand entered
 function rootFunc () {
     if (numInStr){
         if (prevNum){
@@ -311,7 +312,7 @@ function rootFunc () {
                 alert (Error)
             }
             curNum=Math.pow(prevNum, 1/2)
-            res = res.replace(numInStr, curNum);
+            res = res.replace(numInStr, String(curNum));
             numInStr='';
             setRes.innerHTML = res
         }
@@ -339,7 +340,7 @@ function rootFunc () {
     }
 
 }
-
+//Adds pi
 function  setPie(){
     if (!numInStr){
         numInStr=String(Math.PI)
@@ -347,7 +348,7 @@ function  setPie(){
         setRes.innerHTML=res;
     }
 }
-
+//Helper  for factorialFunc
 function calcFactorial(num){
     let total = 1;
     for (let j=1; j<(num+1); j++){
@@ -355,12 +356,12 @@ function calcFactorial(num){
     }
     return total;
 }
-
+//Calculate factorial for the last operand entered
 function factorialFunc (){
     if (numInStr){
         if (prevNum){
             curNum=calcFactorial (Number(numInStr))
-            res = res.replace(numInStr, curNum);
+            res = res.replace(numInStr, String(curNum));
             numInStr='';
             setRes.innerHTML = res
         }
@@ -375,64 +376,55 @@ function factorialFunc (){
     }
     else if (prevNum){
         curNum=calcFactorial (prevNum)
-        res = res.replace(prevNum, curNum);
+        res = res.replace(String(prevNum), String(curNum));
         numInStr='';
         setRes.innerHTML = res
     }
 }
-
- function remoteMode(x) {
-     console.log("entered")
-     let URL = mathJsURL + encodeURIComponent(x);
-     setTimeout(() => {
-         try {
-             remoteCalc(URL);
-         } catch {
-             alert("Error. Please try the local calculator");
-         }
-     }, 2000)
- }
-
- // >>>>>>>>>>>FETCH WITH TIMEOUT<<<<<<<<<
-//ABORT CONTROLLER
-
-function remoteCalc (URL){
-    fetch(URL)
-        .then(function (response) {
-            console.log(response);
-            return response.json();
-        })
-        .then(function (data) {
-            total=data;
-            document.getElementById('result').innerHTML = String(total);
-            displayCalc();
-        })
-        .catch(function () {
-            alert("Error. Please try the local calculator");
-        })
+//Sends equation to math.js. Alerts user if no response within 2 secs. Return result of equation.
+function remoteMode(x:string) {
+    console.log("entered")
+    x= x.replace('√','^(1/') +')';
+    x= x.replace('**', '^')
+    console.log(x)
+    let URL = mathJsURL + encodeURIComponent(x);
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 2000)
+    fetch(URL, { signal: controller.signal })
+    .then(response => {
+        console.log(response);
+        return response.json();
+    })
+    .then(function (data) {
+        prevNum=total=data;
+        document.getElementById('result').innerHTML = String(total);
+        displayCalc();
+    })
+    .catch(function () {
+        alert("Error. Please try the local calculator");
+    })
+    clearTimeout(timeoutId);
 }
-
+//Sends base2 number to networkcalc. Alerts user if no response within 2 secs. Return base 10 number.
 function base2Func(){
-    fetch("https://networkcalc.com/api/binary/"+ numInStr+ "?from=10")
+    fetch("https://networkcalc.com/api/binary/"+ numInStr)
     .then(function (response) {
         console.log(response);
         return response.json();
     })
         .then(function (data) {
             console.log(data)
-            total=Number(data.converted);
+            prevNum=total=Number(data.converted);
             document.getElementById('result').innerHTML = String(total);
             displayCalc();
         })
         .catch(function () {
             alert("Error. Please try the local calculator");
         })
-
 }
 
 
-
- const numBtns = document.querySelectorAll('.numbutton')
+const numBtns = document.querySelectorAll('.numbutton')
 numBtns.forEach(function (btn) {
     btn.addEventListener('click', () => checkStatus(btn.getAttribute('id')))
 });
@@ -447,7 +439,4 @@ document.getElementById('root').addEventListener('click', rootFunc)
 document.getElementById('pie').addEventListener('click', setPie)
 document.getElementById('factorial').addEventListener('click', factorialFunc)
 document.getElementById('base2').addEventListener('click', base2Func)
-
-
-
 

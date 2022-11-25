@@ -4,6 +4,7 @@ var versionInfo = {
     "Description": "This is a simple calculator"
 };
 var params = null;
+//Handles the presentation of the screen on load and resets status of modes
 function loadApp() {
     document.getElementById("pagebody").className = "dark";
     document.getElementById('scientific').style.visibility = "hidden";
@@ -34,6 +35,7 @@ function hideHistory() {
         btn.style.border = "5px solid black";
     }
 }
+//Turn on/off the screen light
 function lightScreen() {
     var elem = document.getElementById('result');
     var btn = document.getElementById('lightbulb');
@@ -46,6 +48,7 @@ function lightScreen() {
         btn.style.border = '5px solid black';
     }
 }
+//Toggle sci mode
 function sciMode() {
     var elem = document.getElementById('scientific');
     var btn = document.getElementById("sciMode");
@@ -62,6 +65,7 @@ function sciMode() {
         clearRes();
     }
 }
+//Toggle remote mode
 function remoteModeStart() {
     var btn = document.getElementById("cloud");
     if (remote == false) {
@@ -75,6 +79,7 @@ function remoteModeStart() {
         scientific = false;
     }
 }
+//App info popup
 function displayInfo() {
     var displayText = '';
     document.getElementById('myPopup').classList.toggle("show");
