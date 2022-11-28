@@ -442,3 +442,6 @@ document.getElementById('pie').addEventListener('click', setPie)
 document.getElementById('factorial').addEventListener('click', factorialFunc)
 document.getElementById('base2').addEventListener('click', base2Func)
 
+
+
+
