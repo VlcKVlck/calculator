@@ -99,3 +99,6 @@ document.getElementById('info').addEventListener("click", displayInfo);
 document.getElementById('cloud').addEventListener('click', remoteModeStart)
 document.addEventListener('DOMContentLoaded', loadApp);
 
+
+
+
