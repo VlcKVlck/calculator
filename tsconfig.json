@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "outDir": "/js",
     "target": "ES2021",
     "lib": [
       "DOM",
